@@ -6,79 +6,59 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using BeatSaberMarkupLanguage;
+using BeatSaberMarkupLanguage.Attributes;
+using BeatSaberMarkupLanguage.Parser;
+using HMUI;
+using IPA.Utilities;
+using BS_Utils.Utilities;
 
 namespace BeatSaberChat
 {
-    /// <summary>
-    /// Monobehaviours (scripts) are added to GameObjects.
-    /// For a full list of Messages a Monobehaviour can receive from the game, see https://docs.unity3d.com/ScriptReference/MonoBehaviour.html.
-    /// </summary>
-    public class BeatSaberChatController : MonoBehaviour
+    public class BeatSaberChatController : PersistentSingleton<BeatSaberChatController>
     {
         public static BeatSaberChatController Instance { get; private set; }
 
-        // These methods are automatically called by Unity, you should remove any you aren't using.
-        #region Monobehaviour Messages
-        /// <summary>
-        /// Only ever called once, mainly used to initialize variables.
-        /// </summary>
+        private ChatUIViewController chatUIViewController;
+
         private void Awake()
         {
             // For this particular MonoBehaviour, we only want one instance to exist at any time, so store a reference to it in a static property
             //   and destroy any that are created while one already exists.
             if (Instance != null)
             {
-                Plugin.Log?.Warn($"Instance of {GetType().Name} already exists, destroying.");
                 GameObject.DestroyImmediate(this);
                 return;
             }
             GameObject.DontDestroyOnLoad(this); // Don't destroy this object on scene changes
             Instance = this;
-            Plugin.Log?.Debug($"{name}: Awake()");
         }
-        /// <summary>
-        /// Only ever called once on the first frame the script is Enabled. Start is called after any other script's Awake() and before Update().
-        /// </summary>
-        private void Start()
+
+        internal void Setup()
         {
-
+            this.chatUIViewController = BeatSaberUI.CreateViewController<ChatUIViewController>();
+            base.StopAllCoroutines();
+            base.StartCoroutine(this.PresentView());
         }
 
-        /// <summary>
-        /// Called every frame if the script is enabled.
-        /// </summary>
-        private void Update()
+        private IEnumerator PresentView()
         {
-
+            yield return new WaitForSeconds(0.2f);
+            yield return new WaitWhile(() => BeatSaberUI.MainFlowCoordinator == null);
+            this.ShowView(false, false, false);
+            Resources.FindObjectsOfTypeAll<MainMenuViewController>().First<MainMenuViewController>().didActivateEvent += this.ShowView;
+            yield break;
         }
 
-        /// <summary>
-        /// Called every frame after every other enabled script's Update().
-        /// </summary>
-        private void LateUpdate()
-        {
+		internal void ShowView(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling)
+		{
+            BeatSaberUI.MainFlowCoordinator.InvokeMethod("SetLeftScreenViewController", new object[]
+			{
+				this.chatUIViewController,
+				ViewController.AnimationType.None
+			});
+		}
 
-        }
-
-        /// <summary>
-        /// Called when the script becomes enabled and active
-        /// </summary>
-        private void OnEnable()
-        {
-
-        }
-
-        /// <summary>
-        /// Called when the script becomes disabled or when it is being destroyed.
-        /// </summary>
-        private void OnDisable()
-        {
-
-        }
-
-        /// <summary>
-        /// Called when the script is being destroyed.
-        /// </summary>
         private void OnDestroy()
         {
             Plugin.Log?.Debug($"{name}: OnDestroy()");
@@ -86,6 +66,5 @@ namespace BeatSaberChat
                 Instance = null; // This MonoBehaviour is being destroyed, so set the static instance property to null.
 
         }
-        #endregion
     }
 }

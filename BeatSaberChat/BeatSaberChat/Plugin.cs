@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using IPALogger = IPA.Logging.Logger;
+using BS_Utils.Utilities;
 
 namespace BeatSaberChat
 {
@@ -45,16 +46,19 @@ namespace BeatSaberChat
         [OnStart]
         public void OnApplicationStart()
         {
-            Log.Debug("OnApplicationStart");
-            new GameObject("BeatSaberChatController").AddComponent<BeatSaberChatController>();
-
+            //BSEvents.OnLoad();
+            PersistentSingleton<BeatSaberChatController>.instance.Setup();
+            //BSEvents.lateMenuSceneLoadedFresh += this.OnMenuSceneLoadedFresh;
         }
 
         [OnExit]
         public void OnApplicationQuit()
         {
-            Log.Debug("OnApplicationQuit");
-
+            //BSEvents.lateMenuSceneLoadedFresh -= this.OnMenuSceneLoadedFresh;
+        }
+        private void OnMenuSceneLoadedFresh(ScenesTransitionSetupDataSO data)
+        {
+            //new GameObject("BeatSaberChatController").AddComponent<BeatSaberChatController>();
         }
     }
 }
