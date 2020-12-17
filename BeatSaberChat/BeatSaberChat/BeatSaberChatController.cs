@@ -20,6 +20,7 @@ namespace BeatSaberChat
         public static BeatSaberChatController Instance { get; private set; }
 
         private ChatUIViewController chatUIViewController;
+        private GameObject leftScreen;
 
         private void Awake()
         {
@@ -52,11 +53,20 @@ namespace BeatSaberChat
 
 		internal void ShowView(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling)
 		{
-            BeatSaberUI.MainFlowCoordinator.InvokeMethod("SetLeftScreenViewController", new object[]
-			{
-				this.chatUIViewController,
-				ViewController.AnimationType.None
-			});
+            BeatSaberUI.MainFlowCoordinator.InvokeMethod("SetTopScreenViewController", new object[]
+            {
+                this.chatUIViewController,
+                ViewController.AnimationType.None
+            });
+            //foreach (GameObject obj in FindObjectsOfType<GameObject>())
+            //{
+            //    if(obj.name == "LeftScreen")
+            //    {
+            //        leftScreen = obj;
+            //    }
+            //}
+
+            chatUIViewController.Setup();
 		}
 
         private void OnDestroy()

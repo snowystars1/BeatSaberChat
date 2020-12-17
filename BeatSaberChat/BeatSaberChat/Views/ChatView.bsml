@@ -1,11 +1,12 @@
-﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
-  <vertical child-control-height='false'>
-    <horizontal bg='panel-top' pad-left='10' pad-right='10' horizontal-fit='PreferredSize'>
-      <text text='Example' align='Center' font-size='10'></text>
-    </horizontal>
-    <horizontal bg='round-rect-panel' pad='8'>
-      <text text='Looks at this fancy text.'></text>
-    </horizontal>
-    <button text='Test Button'></button>
+﻿<bg pref-height="100" xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+  <vertical bg='round-rect-panel' bg-color='~bg-color' min-height='100' min-width='100' pad-top='5' pad-bottom='5' pad-left='5' pad-right='5' horizontal-fit='PreferredSize' vertical-fit='PreferredSize' child-control-height='true'>
+    
+    <!--<list id='messageList' visible-cells='5' expand-cell='true' pref-height='44' list-width='100'></list>-->
+    <custom-list cell-size='10' id='messageList' contents='customMessages' visible-cells='5' list-width='30'></custom-list>
+    <!--<horizontal pref-height="100" bg='round-rect-panel' pad-left='10' pad-right='10' horizontal-fit='PreferredSize'>
+      <text text='Example\n' align='MidlineLeft' font-size='1'></text>
+      <text text='Example2\n' align='MidlineRight' font-size='1'></text>
+      --><!--<button text='Test Button'></button>--><!--
+    </horizontal>-->
   </vertical>
 </bg>
