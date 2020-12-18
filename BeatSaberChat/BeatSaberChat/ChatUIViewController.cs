@@ -12,26 +12,19 @@ using UnityEngine;
 
 namespace BeatSaberChat
 {
-    [HotReload("BeatSaberChat.Views.ChatView.bsml")]
+    [HotReload(@"C:\Users\Chris\Documents\GitHub\BeatSaberChat\BeatSaberChat\BeatSaberChat\Views\ChatView.bsml")]
     [ViewDefinition("BeatSaberChat.Views.ChatView.bsml")]
-    internal class ChatUIViewController : BSMLResourceViewController
+    internal class ChatUIViewController : BSMLAutomaticViewController
     {
-        public override string ResourceName
-        {
-            get
-            {
-                return "BeatSaberChat.Views.ChatView.bsml";
-            }
-        }
         public static ChatUIViewController Instance { get; private set; }
 
         private RectTransform ChatUIRectTransform;
 
-        [UIComponent("messageList")]
-        private CustomListTableData messageList;
+        [UIComponent("message-list")]
+        public CustomCellListTableData messageList;
 
-        [UIValue("customMessages")]
-        private List<CustomListTableData.CustomCellInfo> messages = new List<CustomListTableData.CustomCellInfo>();
+        [UIValue("custom-messages")]
+        public List<object> messages = new List<object>();
 
         [UIValue("bg-color")]
         public Color backgroundColor;
@@ -62,10 +55,10 @@ namespace BeatSaberChat
             ChatUIRectTransform = Instance.gameObject.GetComponent<RectTransform>();
             if(ChatUIRectTransform is RectTransform)
             {
-                ChatUIRectTransform.offsetMax = new Vector2(285.7f, 0f);
+                //ChatUIRectTransform.offsetMax = new Vector2(380.9f, 0f);
                 ChatUIRectTransform.sizeDelta = new Vector2(ChatUIRectTransform.sizeDelta.x, 86.0f);
                 Instance.gameObject.transform.position = new Vector3(Instance.gameObject.transform.position.x, 1.78f, Instance.gameObject.transform.position.z);
-
+                Instance.gameObject.transform.position = new Vector3(Instance.gameObject.transform.position.x, 3.21f, Instance.gameObject.transform.position.z);
             }
         }
 
@@ -76,11 +69,37 @@ namespace BeatSaberChat
 
         private void ShowMessages()
         {
-            this.messages.Add(new CustomListTableData.CustomCellInfo("Hello", null, null));
-            this.messages.Add(new CustomListTableData.CustomCellInfo("Hello", null, null));
-            this.messages.Add(new CustomListTableData.CustomCellInfo("Goodbye", null, null));
+
+            if(this.messages is null)
+            {
+                Plugin.Log.Info("Messages is null");
+                return;
+            }
+            if(this.messageList is null)
+            {
+                Plugin.Log.Info("MessageList is null");
+                return;
+            }
+            this.messages.Add(new customMessageObject("hello"));
+            this.messages.Add(new customMessageObject("hello"));
+            this.messages.Add(new customMessageObject("goodbye1"));
+            this.messages.Add(new customMessageObject("goodbye2"));
+            this.messages.Add(new customMessageObject("goodbye3"));
+            this.messages.Add(new customMessageObject("goodbye4"));
+            this.messages.Add(new customMessageObject("goodbye5"));
             this.messageList.tableView.ReloadData();
-            this.messageList.tableView.ScrollToCellWithIdx(2, TableViewScroller.ScrollPositionType.Center, false);
+            //this.messageList.tableView.ScrollToCellWithIdx(2, TableViewScroller.ScrollPositionType.Center, false);
+        }
+    }
+
+    internal class customMessageObject
+    {
+        [UIValue("somethingMessage")]
+        public string message;
+
+        public customMessageObject(string message)
+        {
+            this.message = message; 
         }
     }
 }

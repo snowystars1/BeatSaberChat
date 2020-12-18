@@ -1,12 +1,13 @@
-﻿<bg pref-height="100" xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+﻿<bg  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
   <vertical bg='round-rect-panel' bg-color='~bg-color' min-height='100' min-width='100' pad-top='5' pad-bottom='5' pad-left='5' pad-right='5' horizontal-fit='PreferredSize' vertical-fit='PreferredSize' child-control-height='true'>
-    
     <!--<list id='messageList' visible-cells='5' expand-cell='true' pref-height='44' list-width='100'></list>-->
-    <custom-list cell-size='10' id='messageList' contents='customMessages' visible-cells='5' list-width='30'></custom-list>
-    <!--<horizontal pref-height="100" bg='round-rect-panel' pad-left='10' pad-right='10' horizontal-fit='PreferredSize'>
-      <text text='Example\n' align='MidlineLeft' font-size='1'></text>
-      <text text='Example2\n' align='MidlineRight' font-size='1'></text>
-      --><!--<button text='Test Button'></button>--><!--
-    </horizontal>-->
+    <page-button click-event='message-list#PageUp' direction='Up' pref-width='30' pref-height='5'></page-button>
+    <custom-list cell-size='10' id='message-list' child-control-width='true' list-direction='Vertical' contents='custom-messages' visible-cells='3' list-width='100'>
+      <horizontal bg='round-rect-panel' child-control-width='true' vertical-fit='PreferredSize' pad-left='1' pad-right='1'>
+        <!--<text text='hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello' word-wrapping='true' font-size='5'></text>-->
+        <text text='~somethingMessage' font-size='4'></text>
+      </horizontal>
+    </custom-list>
+    <page-button click-event='message-list#PageDown' direction='Down' pref-width='30' pref-height='5'></page-button>
   </vertical>
 </bg>

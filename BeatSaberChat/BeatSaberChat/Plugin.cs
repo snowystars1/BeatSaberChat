@@ -29,7 +29,6 @@ namespace BeatSaberChat
             Instance = this;
             Log = logger;
             Log.Info("BeatSaberChat initialized.");
-            //SceneManager.activeSceneChanged += this.OnActiveSceneChanged;
         }
 
         #region BSIPA Config
@@ -54,25 +53,8 @@ namespace BeatSaberChat
         [OnExit]
         public void OnApplicationQuit()
         {
-            //BSEvents.lateMenuSceneLoadedFresh -= this.OnMenuSceneLoadedFresh;
+            BSEvents.lateMenuSceneLoadedFresh -= this.OnMenuSceneLoadedFresh;
         }
-        //private void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
-        //{
-        //    if (prevScene.name == "PCInit")
-        //    {
-        //        Plugin.hasInited = true;
-        //    }
-        //    if (Plugin.hasInited && nextScene.name.Contains("Menu") && prevScene.name == "EmptyTransition")
-        //    {
-        //        Plugin.hasInited = false;
-        //        PersistentSingleton<BSMLParser>.instance.MenuSceneLoaded();
-        //        if (this.gameScenesManager == null)
-        //        {
-        //            this.gameScenesManager = Resources.FindObjectsOfTypeAll<GameScenesManager>().FirstOrDefault<GameScenesManager>();
-        //        }
-        //        this.gameScenesManager.transitionDidFinishEvent += this.MenuLoadFresh;
-        //    }
-        //}
 
         private void OnMenuSceneLoadedFresh(ScenesTransitionSetupDataSO data)
         {
